@@ -1,0 +1,81 @@
+Day 78 - Project Initialization and Planning
+
+- تم إنشاء المشروع باستخدام: npm init -y
+- من خلال الدورة، تم استخدام بنية MVC
+- الفولدرات الأساسية:
+  - controllers
+  - models
+  - views
+  - routes
+- صفحات views المشتركة (admin + customer):
+  - Signup
+  - Login
+- صفحات خاصة بـ admin:
+  - Dashboard
+  - All Products
+  - New Product
+  - Update Product
+  - All Orders
+- صفحات خاصة بـ customer:
+  - All Products
+  - Product Details
+  - Shopping Cart
+  - Customer Orders
+- تصميم models:
+  - User:
+    - email, password, name, address, isAdmin
+  - Product:
+    - name, summary, price, image, description
+  - Cart:
+    - items, totalPrice, numberOfItems
+  - Order:
+    - userData, products or cart, date, status
+
+    * بعد هيك قمنا بتثبيت مكتبات بنحتاجها مثل
+-  express ، nodemon (لتحديث السيرفر تلقائيًا في وضع التطوير)
+
+
+
+- في app.js:
+  - استدعاء express
+  - إنشاء app باستخدام express()
+  - تشغيل السيرفر على البورت 3000 باستخدام app.listen
+
+- داخل routes:
+  - إنشاء ملف: auth.route.js
+  - يحتوي على الراوتات الخاصة بـ signup و login
+  - لكل راوت (get أو post)، يتم تحديد اسم دالة فقط
+
+- داخل controllers:
+  - إنشاء ملف: auth.controller.js
+  - يحتوي على الدوال الفعلية الخاصة بـ signup و login
+  - يتم تمرير أسماء هذه الدوال من الراوتس
+
+
+
+======================== Day 79 =================
+
+
+- تم تثبيت EJS باستخدام: npm i ejs
+
+- داخل app.js:
+  - const express = require('express')
+  - const path = require('path')
+  - const authRouter = require('./routes/auth.routes')
+  - const app = express()
+  - تعيين EJS كمحرك عرض: app.set('view engine', 'ejs')
+  - تحديد مسار مجلد views: app.set('views', path.join(__dirname, 'views'))
+  - استخدام الراوتر: app.use(authRouter)
+  - تشغيل السيرفر على بورت 3000: app.listen(3000)
+
+- داخل مجلد views:
+  - إنشاء مجلد باسم auth
+  - إضافة الصفحات:
+    - login.ejs
+    - signup.ejs
+
+- داخل views/customer:
+  - إنشاء مجلد باسم includes
+  - إضافة ملفات مشتركة:
+    - head.ejs
+    - header.ejs
