@@ -67,6 +67,8 @@ Day 78 - Project Initialization and Planning
   - تحديد مسار مجلد views: app.set('views', path.join(__dirname, 'views'))
   - استخدام الراوتر: app.use(authRouter)
   - تشغيل السيرفر على بورت 3000: app.listen(3000)
+  -app.use(express.static('public')) تعريف السيرفر على ملف الستايل 
+
 
 - داخل مجلد views:
   - إنشاء مجلد باسم auth
@@ -79,3 +81,14 @@ Day 78 - Project Initialization and Planning
   - إضافة ملفات مشتركة:
     - head.ejs
     - header.ejs
+
+- إنشاء مجلد باسم public
+  - إضافة ملفات CSS داخله
+
+- في ملفات الستايل:
+  - تم ربط Google Fonts داخل head.ejs
+  - تعريف ستايل أساسي يتم تطبيقه على كل الصفحات من خلال ملف رئيسي
+
+- في CSS:
+  - استخدام المتغيرات (CSS Variables)
+  - تعريف متغيرات للألوان، المساحات (spacing)، والـ shadow
