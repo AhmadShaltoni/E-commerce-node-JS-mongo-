@@ -215,3 +215,94 @@ Day 78 - Project Initialization and Planning
         .catch(err => {
             console.error('Failed to connect to the database:', err);
         });
+
+        ======================== Day 81 =================
+
+
+          - داخل app.js:
+            - إضافة middleware لمعالجة بيانات الفورم:
+              app.use(express.urlencoded({ extended: false }));
+
+          - داخل auth.controller.js:
+            - إنشاء دالة signup للتعامل مع POST بيانات التسجيل
+            - استلام بيانات: email, password, fullname, street, city, postal من req.body
+            - إنشاء كائن User جديد وتمرير البيانات له
+            - استدعاء دالة signup من كلاس User لحفظ المستخدم في قاعدة البيانات
+            - إعادة التوجيه لصفحة تسجيل الدخول بعد التسجيل
+            - إنشاء دالة getLogin لعرض صفحة تسجيل الدخول
+
+          - إنشاء ملف user.model.js:
+            - تعريف كلاس User مع خصائص: email, password, fullname, address (street, city, postalCode)
+            - دالة signup داخل الكلاس تقوم بتشفير كلمة المرور باستخدام bcrypt
+            - حفظ بيانات المستخدم في مجموعة 'users' داخل MongoDB
+
+
+-------------
+
+- إضافة مكتبة الحماية CSRF:
+  npm i csurf
+
+- إنشاء مجلد middlewares
+- داخل middlewares، إنشاء ملف csrf-token.js يحتوي على:
+
+  function addCsrfToken(req, res, next) {
+      res.locals.csrfToken = req.csrfToken();
+      next();
+  }
+
+  module.exports = addCsrfToken;
+
+- استخدام middleware لإرسال قيمة CSRF token للعرض في القوالب
+- إضافة حقول الـ CSRF في نماذج التسجيل وتسجيل الدخول لضمان حماية الريكوست من هجمات التزوير
+
+---------------------
+
+
+- إنشاء صفحة خاصة لعرض أخطاء السيرفر (500 error):
+  - مسار الملف: views/shared/500.ejs
+  - تحتوي على رسالة: "Something went wrong" + رابط للصفحة الرئيسية
+
+- إنشاء ملف جديد في middlewares باسم error-handler.js يحتوي على:
+
+  function handleError(err, req, res, next) {
+      console.error('Error occurred:', err);
+      res.status(500).render('shared/500');
+  }
+
+  module.exports = handleError;
+
+- الهدف: عرض صفحة مفيدة للمستخدم عند حدوث خطأ غير متوقع بدلاً من كود الخطأ الخام
+
+
+--------------
+
+- أضفنا دعم الجلسات (Sessions) والكوكيز لأن مكتبة CSRF تعتمد عليهم.
+- قمنا بتثبيت البكجات:
+  npm i express-session connect-mongodb-session
+
+- أنشأنا ملف جديد: config/session.js
+  يحتوي على:
+  - createSessionStore: لإنشاء store من نوع MongoDB لتخزين الجلسات.
+  - createSessionConfig: إعدادات السيشن (السر، زمن الانتهاء، store).
+
+  مثال:
+  {
+    secret: 'super-secret',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoDBStore,
+    cookie: { maxAge: يومين }
+  }
+
+- في ملف app.js:
+  - استوردنا createSessionConfig
+  - مررنا الناتج إلى express-session:
+
+  ```js
+  const sessionConfig = createSessionConfig();
+  app.use(expressSession(sessionConfig));
+
+
+
+
+        ======================== Day 81 =================
