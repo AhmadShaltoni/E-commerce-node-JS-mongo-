@@ -92,3 +92,126 @@ Day 78 - Project Initialization and Planning
 - في CSS:
   - استخدام المتغيرات (CSS Variables)
   - تعريف متغيرات للألوان، المساحات (spacing)، والـ shadow
+
+
+
+======================== Day 80 =================
+
+
+- داخل مجلد public:
+  - إضافة ملف CSS جديد باسم base.css
+  - استخدامه لتنسيق العناصر العامة في المشروع
+
+- التنسيقات اللي أضفناها:
+
+  main {
+      width: 90%;
+      max-width: 50rem;
+      margin: auto;
+  }
+
+  ul, ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+  }
+
+  a {
+      text-decoration: none;
+      color: var(--color-primary-400);
+  }
+
+  .btn {
+      cursor: pointer;
+      font: inherit;
+      padding: var(--space-2) var(--space-6);
+      background-color: var(--color-primary-500);
+      color: var(--color-primary-200-contrast);
+      border: 1px solid var(--color-primary-500);
+      border-radius: var(--border-radius-small);
+  }
+
+  .btn:hover,
+  .btn:active {
+      background-color: var(--color-primary-700);
+      border-color: var(--color-primary-700);
+  }
+
+------------------
+
+- تم إضافة تنسيقات خاصة بعناصر الفورم:
+
+  form hr {
+      border-color: var(--color-primary-200);
+      margin: var(--space-4);
+  }
+
+  label {
+      display: block;
+      margin-bottom: var(--space-2);
+      color: var(--color-gray-100);
+  }
+
+  input, textarea {
+      font: inherit;
+      width: 90%;
+      padding: var(--space-2);
+      border-radius: var(--border-radius-small);
+      border: none;
+      background-color: var(--color-gray-500);
+      color: var(--color-gray-100);
+  }
+
+----------------
+
+
+- داخل auth.controller.js:
+  - إضافة دالة جديدة: signupPost (تعالج POST request الخاصة بـ signup)
+
+- داخل auth.routes.js:
+  - إضافة route من نوع POST لصفحة signup
+  - تمرير الدالة signupPost من الكنترولر
+
+- إعداد قاعدة البيانات:
+  - تثبيت MongoDB: npm i mongodb
+  - إنشاء مجلد باسم data
+  - داخل data: إنشاء ملف database.js
+
+- محتوى ملف database.js:
+
+  const mongodb = require('mongodb');
+  const MongoClient = mongodb.MongoClient;
+  let database;
+
+  async function connectToDatabase() {
+      const client = await MongoClient.connect('mongodb://localhost:27017');
+      database = client.db('online-shop');
+  }
+
+  function getDb() {
+      if (!database) {
+          throw new Error('Database not initialized. Call connectToDatabase first.');
+      }
+      return database;
+  }
+
+  module.exports = {
+      connectToDatabase,
+      getDb
+  };
+
+- داخل app.js:
+  - استدعاء ملف قاعدة البيانات:
+    const db = require('./data/database')
+
+  - التأكد من الاتصال بقاعدة البيانات قبل تشغيل السيرفر:
+
+    db.connectToDatabase()
+        .then(() => {
+            app.listen(3000, () => {
+                console.log('Server is running on port 3000');
+            });
+        })
+        .catch(err => {
+            console.error('Failed to connect to the database:', err);
+        });

@@ -1,0 +1,22 @@
+h1{
+    color: var(--color-gray-300);
+    text-align: center;
+}
+form {
+    max-width: 25rem;
+    margin: var(--space-8) auto;
+    padding: var(--space-4);
+    border-radius: var(--border-radius-medium);
+    background-color: var(--color-gray-600);
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+}
+
+form a {
+    color: var(--color-primary-200);
+}
+
+form a:hover, form a:active {
+    color: var(--color-primary-400);
+}
+
