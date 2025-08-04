@@ -305,4 +305,57 @@ Day 78 - Project Initialization and Planning
 
 
 
-        ======================== Day 81 =================
+        ======================== Day 82 =================
+
+
+
+ 
+ إنشاء جلسة بعد تسجيل الدخول
+ 
+ في auth.controller.js أضفنا دالة login:
+async function login(req, res) {
+  const user = new User(req.body.email, req.body.password);
+  const existingUser = await user.getUserWithSameEmail();
+
+  if (!existingUser) {
+    res.redirect('/login');
+    return;
+  }
+
+  const passwordIsCorrect = await user.hasMatchingPassword(req.body.password);
+  if (!passwordIsCorrect) {
+    res.redirect('/login');
+    return;
+  }
+
+  authUtil.createUserSession(req, existingUser, function () {
+    res.redirect('/');
+  });
+}
+
+الهدف: بعد ما يتأكد من الإيميل وكلمة السر، يتم إنشاء جلسة Session للمستخدم وتخزين الـ user._id بداخلها.
+
+
+--------------
+أنشأنا ملف util/authentication.js يحتوي
+
+function createUserSession(req, user, action) {
+  req.session.uid = user._id.toString(); // تخزين ID المستخدم داخل الجلسة
+  req.session.save(action); // بعد تخزين الجلسة بنجاح، بننفذ الكول باك
+}
+
+module.exports = {
+  createUserSession
+};
+
+
+ التحقق من كلمة السر + إضافة زر Logout
+داخل صفحة تسجيل الدخول، صار التحقق يتم عن طريق مقارنة كلمة السر المُدخلة مع كلمة السر المخزنة (بعد فك تشفيرها باستخدام bcrypt).
+
+زر تسجيل الخروج (Logout):
+أضفنا زر أو رابط يسمح للمستخدم بتسجيل الخروج، لاحقاً راح نربطه بدالة تحذف الجلسة.
+
+
+شيكنا على الايميل والباسورد وكل. اشي بحطو اليوزر داخل signup
+وشيكنا علي انو الايميل والكنفويرم ايميل زي بعض قبل ما نرسل للداتا بيس 
+وشيكنا انو الايميل مش مخزن  زيه بالداتا بيس 
