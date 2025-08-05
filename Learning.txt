@@ -500,3 +500,43 @@ Day 86
 - في admin.controller:
   - دالة `getUpdateProduct`: تجلب بيانات منتج معين من قاعدة البيانات باستخدام ID وتعرض صفحة التعديل.
   - دالة `updateProduct`: لم يتم تنفيذها بعد ولكن ستكون مسؤولة عن تحديث بيانات المنتج داخل قاعدة البيانات.
+
+
+
+
+
+ ======================== Day 87 =================
+
+- النتيجة: يمكن للمشرف الآن معاينة الصورة قبل رفعها، وحذف المنتجات مباشرة من لوحة الإدارة.
+
+- إضافة خاصية معاينة الصورة قبل رفعها (Image Preview):
+  - أنشأنا سكربت جافاسكربت:
+    - تحديد input الصورة ووسم img للمعاينة.
+    - عند اختيار صورة، يتم عرضها فورًا باستخدام `URL.createObjectURL`.
+    - في حال عدم وجود صورة يتم إخفاء المعاينة.
+  - أضفنا Event Listener على التغيير (change) في input.
+
+- إضافة ستايل لـ image preview:
+  - `#image-upload-control` لاحتواء العناصر وتنسيقها عموديًا.
+  - تحديد حجم input.
+  - جعل الصورة بحجم 4rem مع border-radius وobject-fit: cover.
+  - بشكل افتراضي الصورة مخفية حتى يتم اختيار واحدة.
+
+- إضافة ميزة حذف منتج (Delete Product):
+  - في `admin.controller.js`:
+    - أنشأنا دالة `deleteProduct` لجلب المنتج حسب ID، ثم حذف المنتج من قاعدة البيانات.
+  - في `product.model.js`:
+    - أضفنا دالة `remove` تستخدم `deleteOne` لحذف المنتج بناءً على الـ ID.
+  - في ملف الراوت:
+    - أضفنا الراوت:
+      ```js
+      router.delete('/products/:id', adminController.deleteProduct);
+      ```
+
+- النتيجة: يمكن للمشرف الآن معاينة الصورة قبل رفعها، وحذف المنتجات مباشرة من لوحة الإدارة.
+
+<!-- لكل زر حذف منتج، أضف الـ product id والـ csrf token -->
+<button class="btn btn-alt" 
+        data-productid="<%= product.id %>" 
+        data-csrf="<%= locals.csrfToken %>">Delete</button>
+        

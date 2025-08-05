@@ -9,4 +9,7 @@ router.post('/products/new', adminController.createNewProduct);
 router.post('/products', imageUploadMiddleware, adminController.createNewProduct);
 router.get('/products/:id', imageUploadMiddleware, adminController.getUpdateProduct);
 router.post('/products/:id', imageUploadMiddleware, adminController.updateProduct);
+router.delete('/products/:id', adminController.deleteProduct);
+
+
 module.exports = router

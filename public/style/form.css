@@ -15,3 +15,21 @@ input, textarea {
     border-radius: var(--border-radius-small);
     border: none;
 }
+
+#image-upload-control {
+    display: flex;
+    flex-direction: column;
+}
+
+#image-upload-control input {
+    max-width: 15rem;
+
+}
+#image-upload-control img {
+    display: none;
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: var(--border-radius-small);
+
+}

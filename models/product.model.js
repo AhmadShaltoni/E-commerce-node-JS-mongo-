@@ -63,6 +63,12 @@ class Product {
         }
         return  new Product(product);
     }
+
+         remove(){
+            let proId = new mongodb.ObjectId(this.id)
+             return db.getDb().collection('products').deleteOne({_id:proId})
+        
+        }
 }
 
 module.exports = Product;
