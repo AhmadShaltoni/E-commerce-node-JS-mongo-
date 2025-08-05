@@ -1,13 +1,13 @@
 const db = require('../data/database');
-class product {
+const mongodb = require('mongodb');
+class Product {
     constructor(productData) {
         this.title = productData.title;
         this.summary = productData.summary;
         this.price = + productData.price;
         this.description = productData.description;
         this.image = productData.image;
-        this.imagePath = `product-data/images/${productData.image}`;
-        this.imageUrl = `products/assets/images/${productData.image}`;
+        this.updateImageData();
         this.id = productData._id ? productData._id.toString() : null;
     }
 
@@ -19,13 +19,50 @@ class product {
             description: this.description,
             image: this.image,
         };
-        await db.getDb().collection('products').insertOne(productData);
-    }
 
+        if (this.id) {
+            const productId = new mongodb.ObjectId(this.id);
+            if(!this.image) {
+                delete productData.image;
+            }
+            await db.getDb().collection('products').updateOne({ _id: productId }, { $set: productData });
+        }else{
+        await db.getDb().collection('products').insertOne(productData);
+
+        }
+    }
+    updateImageData(){
+                this.imagePath = `product-data/images/${this.image}`;
+        this.imageUrl = `products/assets/images/${this.image}`;
+    }
+    replaceImage(newImageFileName) {
+        this.image = newImageFileName;
+        this.updateImageData();
+    }
+    
     static async findAll() {
         const products = await db.getDb().collection('products').find().toArray();
-        return products.map(productDocument => new product(productDocument));
+        return products.map(productDocument => new Product(productDocument));
+    }
+
+    static async findById(productId) {
+        let proId;
+        try{
+        proId = new mongodb.ObjectId(productId);
+
+        }catch(error) {
+            error.code = 404;
+            throw error;
+        }
+        const product = await db.getDb().collection('products').findOne({ _id: proId });
+        
+        if (!product) {
+            const error = new Error('Could not find product with id ' + productId);
+            error.code = 404;
+            throw error;
+        }
+        return  new Product(product);
     }
 }
 
-module.exports = product;
+module.exports = Product;
