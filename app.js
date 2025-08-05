@@ -7,6 +7,7 @@ const checkAuthStatusMiddleware = require('./middlewares/check-auth')
 const authRouter = require('./routes/auth.routes')
 const productsRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
+const adminRoutes = require('./routes/admin.route');
 const expressSession = require('express-session');
 const createSessionConfig = require('./config/session');
 const app = express();
@@ -24,6 +25,8 @@ app.use(addCsrfTokenMiddleware);
 app.use(authRouter);
 app.use(productsRoutes);
 app.use(baseRoutes);
+app.use('/admin',adminRoutes);
+
 app.use(errorHandlerMiddleware);
 db.connectToDatabase()
     .then(() => {
