@@ -14,7 +14,13 @@
 </p>
 </section>
 <section>
-<p>Manage all products from this page.</p>
+<ul>
+    <% for (const product of products) { %>
+    <li>
+        <%- include('includes/product-item' , { product: product }) %>
+    </li>
+    <%}%>
+</ul>
 </section>
 
 </main>
