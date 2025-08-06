@@ -8,6 +8,7 @@ const authRouter = require('./routes/auth.routes')
 const productsRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
 const adminRoutes = require('./routes/admin.route');
+const protectRoutesMiddleware = require('./middlewares/protect-routes');
 const expressSession = require('express-session');
 const createSessionConfig = require('./config/session');
 const app = express();
@@ -18,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static('public'))
 app.use('/products/assets', express.static('product-data'));
 
-
+app.use(express.urlencoded({ extended: false }))
 app.use(expressSession(sessionConfig));
 app.use(csrf());
 app.use(checkAuthStatusMiddleware)
@@ -26,7 +27,9 @@ app.use(addCsrfTokenMiddleware);
 app.use(authRouter);
 app.use(productsRoutes);
 app.use(baseRoutes);
+app.use(protectRoutesMiddleware);
 app.use('/admin',adminRoutes);
+
 
 app.use(errorHandlerMiddleware);
 db.connectToDatabase()

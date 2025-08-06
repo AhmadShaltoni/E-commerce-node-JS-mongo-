@@ -1,7 +1,9 @@
-const deleteProductButtonElements = document.querySelectorAll('.product-item button');
+const deleteProductButtonElements = document.querySelectorAll('#adminDeleteProduct');
 
 
 function deleteProduct(event) {
+    console.log('Delete button clicked');
+    
   const productId = event.target.dataset.productid;
   const csrfToken = event.target.dataset.csrf;
         fetch('/admin/products/' + productId + '?_csrf=' + csrfToken ,{

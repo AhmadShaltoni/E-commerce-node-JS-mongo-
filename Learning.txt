@@ -540,3 +540,38 @@ Day 86
         data-productid="<%= product.id %>" 
         data-csrf="<%= locals.csrfToken %>">Delete</button>
         
+
+
+ ======================== Day 88 =================
+
+
+
+
+✔️ Created custom error pages for:
+    - 401 (Not Authenticated)
+    - 403 (Not Authorized)
+    - 404 (Not Found)
+    All pages include:
+        - Shared head section
+        - Shared header & footer
+        - Custom message and link to homepage
+
+✔️ Created middleware: `protectRoutesMiddleware`
+    - Checks if the user is authenticated:
+        → If not, redirects to `/401`
+    - Checks if the route starts with `/admin` and if the user is not an admin:
+        → If not authorized, redirects to `/403`
+    - Otherwise, proceeds with `next()`
+    - Applied globally using `app.use(protectRoutesMiddleware)`
+
+✔️ Defined routes to render error pages:
+    - GET `/401` → renders `shared/401`
+    - GET `/403` → renders `shared/403`
+
+✔️ Added product details page:
+    - Shows full info about the product:
+        → Image, title, price, description
+        → "Add to Cart" button
+    - Uses product image path: `/products/assets/images/<%= product.image %>`
+    - Included `product-management.js` script
+    - Styled with `product.css`

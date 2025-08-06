@@ -1,5 +1,6 @@
 <%- include('../../shared/includes/head' , {pageTitle :"all products"})%>
-
+<script src="/scripts/product-management.js" defer ></script>
+<link rel="stylesheet" href="/style/product.css">
 
 </head>
 <body>
@@ -7,7 +8,14 @@
 
 <main>
 <h1>all products</h1>
-
+      <ul id="product-grid">
+ <% for(const product of products) { %>
+        <li>
+        <%- include('../../shared/includes/product-item.ejs' , { product: product }) %>
+        </li>
+    <% } %>
+      </ul>
+   
 </main>
 
 <%- include('../../shared/includes/footer') %>

@@ -1,0 +1,24 @@
+<%- include('../../shared/includes/head' , {pageTitle :"all products"})%>
+<script src="/scripts/product-management.js" defer ></script>
+        <link rel="stylesheet" href="/style/product.css">        
+
+
+</head>
+<body>
+<%- include('../../shared/includes/header') %>
+
+<main id="product-details">
+
+<header>
+    <img src="/products/assets/images/<%= product.image %>" alt="<%= product.title %>"/>
+    <div id="product-info">
+        <h1><%= product.title %></h1>
+        <p><%= product.price %></p>
+        <button>Add to Cart</button>
+    </div>
+</header>
+<p><%= product.description %></p>
+   
+</main>
+
+<%- include('../../shared/includes/footer') %>
