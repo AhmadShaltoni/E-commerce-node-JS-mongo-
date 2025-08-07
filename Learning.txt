@@ -575,3 +575,10 @@ Day 86
     - Uses product image path: `/products/assets/images/<%= product.image %>`
     - Included `product-management.js` script
     - Styled with `product.css`
+
+
+
+ ======================== Day 89 =================
+
+adding cart 
+working on shopping cart logic

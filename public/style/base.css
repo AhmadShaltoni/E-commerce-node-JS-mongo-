@@ -103,3 +103,13 @@ border-color: var(--color-primary-700);
     box-shadow: var(--shadow-medium);
     text-align: center;
 }
+
+.badge {
+    background-color: var(--color-primary-500);
+    color: var(--color-primary-500-contrast);
+    padding: 0.15rem var(--space-4);
+    margin-left: var(--space-2);
+    border-radius: 10rem;
+    box-shadow: var(--shadow-medium);
+    font-weight: bold;
+}

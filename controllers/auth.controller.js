@@ -88,7 +88,6 @@ async function login(req, res){
    let existingUser ;
     try{
     existingUser = await user.getUserWithSameEmail();
-        console.log("============ existingUser",existingUser);
         
    } catch (error){
     next(error);
@@ -119,7 +118,6 @@ async function login(req, res){
    }
    const passwordIsCorrect = await user.hasMatchingPassword(existingUser.password);
    if (!passwordIsCorrect) {  
-console.log("============ password Is not Correct");
 sessionFlash.flashDataToSession(req, { 
             errorMessage: 'Invalid input - password Is not Correct',
             email: req.body.email,
