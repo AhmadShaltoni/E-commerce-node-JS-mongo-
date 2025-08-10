@@ -1,5 +1,8 @@
  const Product = require('../models/product.model')
 
+     async function getCart(req, res) {
+        res.render('customer/cart/cart')
+     }   
 async function addCartItem(req, res){
     let product ;
     try{
@@ -20,6 +23,20 @@ async function addCartItem(req, res){
     });
 }
 
+function updatedCartItem(req, res){
+const cart = res.locals.cart;
+const updatedItemData = cart.updateItem(req.body.productId, +req.body.quantity)
+req.session.cart = cart;
+res.json({
+    message:'Item updated!',
+    newTotalQuantity:cart.totalQuantity,
+    newTotalPrice:cart.totalPrice,
+    updatedItemPrice:updatedItemData.updatedItemPrice
+})
+}
+
 module.exports ={
-    addCartItem
+    addCartItem,
+    getCart,
+    updatedCartItem
 }
